@@ -97,7 +97,7 @@ st.markdown(
 **Fünftes Stück der Reihe „Online-Algorithmen“** (Entscheiden ohne Kenntnis der Zukunft). Angebote kommen nacheinander; jedes wird **sofort genommen oder für immer verworfen**. Es gibt zwei Fassungen, was man über die Angebote weiß:
 
 - **Teil A, Sekretärproblem:** Man kennt nur die **Rangfolge** der bisherigen Angebote (ist dieses das beste bisher?), sonst nichts. Die Reihenfolge ist zufällig. Die Regel „die ersten k nur ansehen, dann das erste nehmen, das besser ist als alle bisherigen“ findet den Besten mit Wahrscheinlichkeit gegen **1/e ≈ 0,37**.
-- **Teil B, Prophet-Ungleichung:** Man kennt die **Verteilungen** der Angebote, aber nicht ihre Werte, und die Reihenfolge bestimmt ein Gegner. Eine einzige **Schwelle** (die Hälfte des erwarteten Maximums) sichert **mindestens die Hälfte** des Wertes, den ein Prophet erreichen würde.
+- **Teil B, Prophet-Ungleichung:** Man kennt die **Verteilungen** unabhängiger Angebote, aber nicht ihre Werte, und die Reihenfolge bestimmt ein Gegner. Eine einzige **Schwelle** (die Hälfte des erwarteten Maximums) sichert **mindestens die Hälfte** des Wertes, den ein Prophet erreichen würde.
 
 Beide Teile haben ihre eigenen Regler in der Seitenleiste. Weiter unten: die **Kernfrage** je Teil, Experimente (**Reihenfolge**, **Ziel**, **wachsende Zahl**, **zufällige Instanzen**, **unabhängig gleich verteilt**), **🚧 Wo die Annahmen enden**, **⚠️ Annahmen, Grenzen und bekannte Probleme** und **📐 Mathematische Formulierung**.
 """
@@ -108,7 +108,7 @@ with st.expander("So funktionieren Sekretärproblem und Prophet", expanded=True)
         """
 1. **Teil A:** n Angebote kommen in zufälliger Reihenfolge, größer ist besser. Nach jedem Angebot weiß man nur, ob es das beste bisher ist. Die Regel schaut sich die ersten **k** nur an und nimmt dann das erste, das besser ist als alle bisher gesehenen (kommt keines, das letzte).
 2. **Warum 37 %:** Wer zu früh zuschlägt, nimmt oft ein mittelmäßiges Angebot; wer zu lange wartet, lässt den Besten verstreichen. Das Optimum liegt bei k ≈ n/e, der Erfolg bei ≈ 1/e.
-3. **Die Annahme „zufällige Reihenfolge“ trägt alles:** Kommen die Angebote aufsteigend, ist jedes das beste bisher, und die Regel nimmt das erste nach der Wartezeit, das nie das beste ist. Schon eine teilweise sortierte Folge zerstört die Garantie.
+3. **Die Annahme „zufällige Reihenfolge“ trägt alles:** Kommen die Angebote aufsteigend, ist jedes das beste bisher, und die Regel nimmt das erste nach der Wartezeit, das nicht das beste ist (außer bei einer Wartezeit von n − 1). Reicht der sortierte Anfang über die Wartezeit hinaus, ist die Regel sofort wirkungslos.
 4. **Teil B:** Die Angebote sind unabhängige Zufallsgrößen mit bekannter Verteilung. Ein Prophet sieht alle Werte und nimmt das größte (Mittel E[max]). Die Schwelle E[max]/2 nimmt das erste Angebot darüber und garantiert **in jeder Reihenfolge** mindestens E[max]/2.
 5. **Das scharfe Beispiel:** Ein sicheres Angebot 1 und ein riskantes mit Wert 1/ε und Wahrscheinlichkeit ε. Kommt die sichere 1 zuerst, erreicht die Schwelle nur die Hälfte; kommt das riskante zuerst, das Ganze.
         """
@@ -234,7 +234,7 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Zufällige Reihenfolge** (Teil A) | Bei aufsteigender Folge verfehlt die Regel den Besten immer; schon eine zur Hälfte sortierte Folge kostet alles (Experiment 1). | Online-Algorithmen mit Gegner, Paging |
+| **Zufällige Reihenfolge** (Teil A) | Bei aufsteigender Folge verfehlt die Regel den Besten (außer bei einer Wartezeit von n − 1); reicht der sortierte Anfang über die Wartezeit hinaus, kostet das alles (Experiment 1). | Online-Algorithmen mit Gegner, Paging |
 | **Nur ein Angebot wählen** | Mehrere Angebote oder Zuschläge (Matroid-Sekretärproblem) brauchen andere Regeln; nicht modelliert. | Online-Allokation |
 | **Die Verteilungen sind bekannt** (Teil B) | Ohne Verteilung gilt die Schwelle nicht; mit einer einzigen Stichprobe je Verteilung gibt es verwandte Garantien. | Vorhersagen |
 | **Unabhängige Angebote** (Teil B) | Bei Abhängigkeiten gilt die Garantie ½ nicht allgemein. | – |
@@ -247,7 +247,7 @@ with st.expander("⚠️ Annahmen, Grenzen und bekannte Probleme"):
         f"""
 **Annahmen.** Teil A: die Werte sind gleichverteilt in (0, 1) und verschieden; die Regel sieht nur, ob ein Angebot besser ist als alle bisherigen. Die Kennzahlen „Wert/Maximum“ und „unter den besten {C.TOP}“ sind **Schätzungen** über {C.TRIALS} gezogene Folgen (Experimente 1 und 2: {C.ORDER_TRIALS}); die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge ist exakt aus der Formel. Teil B: zwei Angebote, das sichere hat den Wert 1, das riskante {1 / eps:g} mit Wahrscheinlichkeit {eps:g}; die Zahlen dort sind exakt, nicht geschätzt. Experiment 4 ist eine Stichprobe mit festem Seed.
 
-**Grenzen.** Die Demo ist nur an erfundenen Angeboten geprüft. Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der Erfolg höher (bei n = 10 und k = 3 bei {A.p_success(10, 3) * 100:.1f} %). Die Garantie ½ der Schwelle ist scharf, aber nur im schlechtesten Fall; im Mittel über zufällige Instanzen liegt sie weit darüber (Experiment 4). Die Rückwärtsrechnung in Teil B kennt die Reihenfolge, die Schwellenregel nicht.
+**Grenzen.** Die Demo ist nur an erfundenen Angeboten geprüft. Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der beste erreichbare Erfolg höher (bei n = 10 und k = 3 bei {A.p_success(10, 3) * 100:.1f} %). Die Garantie ½ der Schwelle gilt im schlechtesten Fall und ist nur im Grenzfall ε → 0 scharf (die App erlaubt ε ab {min(C.EPS_OPTIONS):g}); im Mittel über zufällige Instanzen liegt sie weit darüber (Experiment 4). Die Rückwärtsrechnung in Teil B kennt die Reihenfolge, die Schwellenregel nicht.
 
 **Bekannte Probleme und Unsicherheiten.** Bei Gleichstand der Qualität (hier ausgeschlossen, da die Werte verschieden sind) wäre die Regel nicht eindeutig. Die Schätzungen schwanken mit dem Seed um einige Zehntelprozentpunkte; die Verdikte und README-Zahlen gelten für feste Seeds.
         """

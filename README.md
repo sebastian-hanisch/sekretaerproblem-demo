@@ -11,7 +11,7 @@ Kante zum Vorgänger: Online-Allokation entscheidet über **viele** Buchungen mi
 
 ## Warum dieses Problem
 
-Angebote kommen nacheinander; jedes wird sofort genommen oder für immer verworfen, und gewählt wird genau eines. Das passt zur Wohnungssuche, zum Gebrauchtwagenkauf, zur Einstellung. Die Kernfrage: **Wie viel kann man herausholen, und woran hängt es, was man über die Angebote weiß?** Zwei Antworten stehen nebeneinander: Mit bloßer Rangfolge und zufälliger Reihenfolge findet man den Besten in etwa **37 %** der Fälle. Mit bekannten Verteilungen sichert eine einzige Schwelle die **Hälfte** dessen, was ein Prophet erreichen würde, auch bei einer Reihenfolge, die ein Gegner wählt.
+Angebote kommen nacheinander; jedes wird sofort genommen oder für immer verworfen, und gewählt wird genau eines. Das passt zur Wohnungssuche, zum Gebrauchtwagenkauf, zur Einstellung. Die Kernfrage: **Wie viel kann man herausholen, und woran hängt es, was man über die Angebote weiß?** Zwei Antworten stehen nebeneinander: Mit bloßer Rangfolge und zufälliger Reihenfolge findet man den Besten in etwa **37 %** der Fälle. Mit bekannten Verteilungen unabhängiger Angebote sichert eine einzige Schwelle die **Hälfte** dessen, was ein Prophet erreichen würde, auch bei einer Reihenfolge, die ein Gegner wählt.
 
 ## Modell
 
@@ -32,7 +32,7 @@ Angebote kommen nacheinander; jedes wird sofort genommen oder für immer verworf
 
 ## Befunde (gemessen, keine Behauptungen)
 
-Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen sind **Stichproben mit festem Seed** und schwanken um etwa ±0,5 Punkte um den exakten Wert (Experiment 1: 37,6 % bei exakt 37,1 %); exakt gerechnete Zahlen sind als „exakt“ gekennzeichnet.
+Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen sind **Stichproben mit festem Seed** und schwanken bei 4000 Folgen um etwa ±1 Punkt (eine Standardabweichung rund 0,8), bei 50 000 Folgen um etwa ±0,4 Punkte um den exakten Wert (Experiment 1: 37,6 % bei exakt 37,1 %, ein Ausreißer von gut zwei Standardabweichungen); exakt gerechnete Zahlen sind als „exakt“ gekennzeichnet.
 
 | Frage | Befund |
 |---|---|
@@ -41,10 +41,10 @@ Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen
 | Aufsteigend sortierte Folge? | Der Beste wird in **0,0 %** der Fälle gewählt (Preset „Aufsteigend sortiert“): Jedes Angebot ist besser als alle vorherigen, und die Regel nimmt das erste nach der Wartezeit, hier das 38. Angebot. Das Mittel der Quotienten gewählt/beste ist 0,379. |
 | Nur der Anfang sortiert (Experiment 1)? | Erste 25 %: **36,8 %** (die Sortierung liegt in der Wartezeit und schadet nicht); erste 50 %: **0,0 %**, ebenso bei 75 %, 100 % und bei absteigender Folge. Wert/Maximum 0,752 bei 50 %, 0,505 bei 75 %, 0,380 aufsteigend, **0,010** absteigend. Zufällig: 37,6 %. |
 | Früh zuschlagen (k = 10, Preset)? | Exakt 23,5 %, gezogen 23,1 %; das gewählte Angebot ist im Mittel das **0,92-Fache** des besten: weniger oft der Beste, aber im Mittel ein besseres Angebot. |
-| Kleine Folge (n = 10, k = 3, Preset)? | Exakt **39,9 %**: bei wenigen Angeboten lohnt sich das Warten mehr als der Grenzwert 36,8 % sagt. |
-| Was ist das Ziel (Experiment 2)? | k = 0 / 5 / 10 / 20 / 37 / 50 / 70: Erfolg 1,0 % / 15,2 % / 23,3 % / 32,6 % / **37,2 %** / 35,0 % / 25,2 %; Wert/Maximum 0,504 / 0,899 / **0,913** / 0,885 / 0,810 / 0,748 / 0,650; unter den besten 5: 4,8 % / 47,0 % / 62,1 % / **70,5 %** / 63,1 % / 51,9 % / 33,0 %. Wer den Besten will, wartet 37; wer einen hohen Wert will, nur 10; wer unter die besten 5 will, 20. |
-| Scharfes Beispiel (ε = 0,01, exakt)? | E[max] = 1,99. Schwelle E[max]/2: **0,5025** des Maximums bei „kleine zuerst“, **1,000** bei „große zuerst“, 0,7513 zufällig. Immer das erste: 0,5025 in jeder Reihenfolge. Der Quotient der Schwelle bei „kleine zuerst“ ist 1/(2 − ε), also scharf gegen 1/2. Bei ε = 0,5: 0,667 / 1,000 / 0,833. |
-| Optimale Regel im scharfen Beispiel? | Gleich wie die Schwelle (0,5025 / 1,000 / 0,7513): Schon hier ist die Schwelle in allen drei Reihenfolgen optimal; beide Schwellen (E[max]/2 und Median) stimmen im ganzen Beispiel überein. |
+| Kleine Folge (n = 10, k = 3, Preset)? | Exakt **39,9 %**: bei wenigen Angeboten liegt der Erfolg über dem Grenzwert 36,8 %. |
+| Was ist das Ziel (Experiment 2)? | k = 0 / 5 / 10 / 20 / 37 / 50 / 70: Erfolg 1,0 % / 15,2 % / 23,3 % / 32,6 % / **37,2 %** / 35,0 % / 25,2 %; Wert/Maximum 0,504 / 0,899 / **0,913** / 0,885 / 0,810 / 0,748 / 0,650; unter den besten 5: 4,8 % / 47,0 % / 62,1 % / **70,5 %** / 63,1 % / 51,9 % / 33,0 %. Unter den getesteten Wartezeiten ist k = 37 für den Erfolg, k = 10 für den Wert und k = 20 für die besten 5 am besten. |
+| Scharfes Beispiel (ε = 0,01, exakt)? | E[max] = 1,99. Schwelle E[max]/2: **0,5025** des Maximums bei „kleine zuerst“, **1,000** bei „große zuerst“, 0,7513 zufällig. Immer das erste: 0,5025 in jeder Reihenfolge. Der Quotient der Schwelle bei „kleine zuerst“ ist 1/(2 − ε), also im Grenzfall ε → 0 scharf gegen 1/2 (die App erlaubt ε ab 0,01). Bei ε = 0,5: 0,667 / 1,000 / 0,833. |
+| Optimale Regel im scharfen Beispiel? | Gleich wie die Schwelle (0,5025 / 1,000 / 0,7513): Schon hier ist die Schwelle in allen drei Reihenfolgen optimal; beide Schwellen (E[max]/2 und Median) stimmen für ε ≤ 0,5 überein. |
 | Zufällige Instanzen (Experiment 4)? | Schwelle E[max]/2: zufällige Reihenfolge im Mittel **0,854** des erwarteten Maximums (Minimum 0,756), aufsteigend nach E[X] 0,800 (Minimum 0,680), absteigend 0,866 (0,759). Weit über der Garantie 0,5, und „kleine zuerst“ schadet auch hier. |
 | Unabhängig und gleich verteilt (Experiment 5, exakt)? | n = 2 / 10 / 100: optimal 0,9375 / 0,9472 / **0,9910**, Schwelle E[max]/2 0,9167 / 0,7998 / **0,7550**, Schwelle am Median 0,9053 / 0,7882 / 0,7540. Die Worst-Case-Schwelle lässt bei n = 100 **23,6 Punkte** liegen. |
 
@@ -53,14 +53,14 @@ Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen
 - Die Demo ist **nur an erfundenen Angeboten** geprüft: gleichverteilte Werte in Teil A, ein Zwei-Punkt-Beispiel und zufällige Verteilungen in Teil B.
 - **Stichproben:** Erfolg bei gewählter Reihenfolge, Wert/Maximum, „unter den besten 5“ und Experiment 4 sind Schätzungen mit festem Seed. Die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge und alles in Teil B (außer Experiment 4) ist exakt.
 - **Wert gegen Rang:** Das Sekretärproblem sieht nur die Rangfolge, das Prophet-Problem die Werte; die Zahlen beider Teile sind nicht vergleichbar, nur die Idee „eine Wahl ohne Zurück“ verbindet sie.
-- Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der Erfolg höher (n = 10: 39,9 %).
-- Die Garantie 1/2 der Schwelle gilt im **schlechtesten Fall**; das scharfe Beispiel zeigt, dass nichts Besseres für alle Reihenfolgen gilt, im Mittel über zufällige Instanzen liegt die Schwelle weit darüber.
+- Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der beste erreichbare Erfolg höher (n = 10: 39,9 % bei k = 3).
+- Die Garantie 1/2 der Schwelle gilt im **schlechtesten Fall** und ist nur im Grenzfall ε → 0 scharf (die App erlaubt ε ab 0,01); das scharfe Beispiel zeigt, dass nichts Besseres für alle Reihenfolgen gilt, im Mittel über zufällige Instanzen liegt die Schwelle weit darüber.
 - Die **Primärquellen wurden nicht eingesehen**; die Aussagen beruhen auf geschlossenen Formeln und Durchrechnen. Deshalb gibt es keinen Literaturtest; die Formeln sind aber gegen vollständiges Aufzählen aller Reihenfolgen (n bis 7) geprüft.
 - Nicht modelliert: mehrere Zuschläge (Matroid-Sekretärproblem), Angebote mit Kosten fürs Ansehen, abhängige Angebote, Reihenfolgen eines Gegners im Sekretärproblem außer der aufsteigenden und der absteigenden.
 
 ## Verifikation
 
-- **Umfang:** siehe `pytest --collect-only -q tests`, rund eineinhalb Minuten lokal.
+- **Umfang:** 262 Tests (siehe `pytest --collect-only -q tests`), rund zweieinhalb Minuten lokal (gemessen: 153 Sekunden).
 - **Kern von Hand** (`tests/test_algorithm.py`): Erfolgsformel (n = 3, k = 1: drei von sechs), Wahlregel einzeln und vektorisiert, Kennzahlen, scharfes Beispiel, gleichverteilte Rückwärtsrechnung (n = 2: 5/8).
 - **Orakel** (`tests/test_oracle_sekretaer.py`): die Formel gegen das **Aufzählen aller Reihenfolgen** für n = 1 bis 7 und jedes k; das scharfe Beispiel gegen eine getrennte Aufzählung der Ausgänge; Stichproben gegen die Formel (innerhalb 4,5 Standardabweichungen); die gleichverteilten Werte gegen Simulationen mit schleifenweiser Regel.
 - **Eigenschaften** (`tests/test_eigenschaften_sekretaer.py`): die Erfolgskurve steigt bis zum besten k und fällt danach; die Wahl hängt nur von der Rangfolge ab; **Online-Eigenschaft** (spätere Angebote ändern die Wahl nicht); gewählt wird ein Rekord oder das letzte; aufsteigende Folge verfehlt den Besten außer bei k = n − 1; absteigende nur ohne Wartezeit; die Schwelle garantiert 0,5 in jeder Reihenfolge und ist scharf (1/(2 − ε)); optimal schlägt alle Regeln.

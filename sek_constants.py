@@ -58,8 +58,8 @@ PRESETS = {
 }
 PRESET_HELP = {
     "Klassisch (n = 100, 37 %)": "Hundert Angebote in zufälliger Reihenfolge, die ersten 37 nur ansehen: der Beste wird in etwas mehr als einem Drittel der Fälle gewählt.",
-    "Aufsteigend sortiert": "Die Angebote kommen aufsteigend: jedes ist besser als alle vorherigen, die Regel nimmt das 38. und verfehlt den Besten immer.",
-    "Erste Hälfte sortiert": "Nur die erste Hälfte der Folge ist aufsteigend sortiert: schon das zerstört die Regel vollständig.",
+    "Aufsteigend sortiert": "Die Angebote kommen aufsteigend: jedes ist besser als alle vorherigen, die Regel nimmt das 38. und verfehlt den Besten (anders nur bei einer Wartezeit von n − 1).",
+    "Erste Hälfte sortiert": "Nur die erste Hälfte der Folge ist aufsteigend sortiert: der sortierte Anfang reicht über die Wartezeit hinaus und macht die Regel wirkungslos.",
     "Früh zuschlagen (k = 10 %)": "Nur zehn Angebote ansehen: der Beste wird seltener gefunden, aber das gewählte Angebot ist im Mittel besser.",
     "Kleine Folge (n = 10)": "Zehn Angebote, drei ansehen: der Beste wird in knapp vier von zehn Fällen gewählt (die Formel ist exakt).",
     "Prophet: große zuerst": "Das riskante Angebot kommt zuerst: die Schwellenregel erreicht das volle erwartete Maximum.",
