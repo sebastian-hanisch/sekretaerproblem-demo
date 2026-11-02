@@ -1,7 +1,6 @@
 # Sekretärproblem und Prophet – Angebote einholen, ohne zurück zu können – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-sekretaerproblem-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-sekretaerproblem-demo.streamlit.app/)**
 
 Fünftes Stück der Reihe **Online-Algorithmen** („Entscheiden ohne Kenntnis der Zukunft“) in der „Konzepte“-Reihe für die Website „Sebastian Hanisch – Operations Research und Machine Learning“, unabhängiger Ast neben [paging-demo](https://github.com/sebastian-hanisch/paging-demo), [online-packen-demo](https://github.com/sebastian-hanisch/online-packen-demo) und [online-allokation-demo](https://github.com/sebastian-hanisch/online-allokation-demo) unter der Wurzel [ski-rental-demo](https://github.com/sebastian-hanisch/ski-rental-demo).
 Anders als die Fall-Demos (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Konzept, **eine einzige Wahl ohne Zurück**, an einem wachsenden Beispiel: erst wenn man nur die **Rangfolge** der bisherigen Angebote kennt (Sekretärproblem), dann wenn man die **Verteilungen** kennt (Prophet-Ungleichung).
@@ -116,4 +115,4 @@ Gebaut mit Streamlit, Plotly, NumPy und pandas.
 
 ---
 
-Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Online-Algorithmen: Entscheiden ohne Zukunft](https://sebastianhanisch.net/konzepte-online-algorithmen.html).
