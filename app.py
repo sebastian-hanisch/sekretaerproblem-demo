@@ -103,6 +103,19 @@ Beide Teile haben ihre eigenen Regler in der Seitenleiste. Weiter unten: die **K
 """
 )
 
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/sekretaerproblem-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Angebote kommen nacheinander, und jedes wird **sofort genommen oder für immer verworfen**. Gewählt wird genau eines, ein Zurück gibt es nicht. Die Demo zeigt zwei Fassungen, je nachdem, was man über die Angebote weiß. Kennt man nur die **Rangfolge** (ist dieses Angebot das beste bisher?), hilft bei zufälliger Reihenfolge die Regel „erst eine Wartezeit nur ansehen, dann das erste nehmen, das besser ist als alle bisherigen“. Kennt man die **Verteilungen** unabhängiger Angebote, sichert eine einzige **Schwelle** die Hälfte dessen, was ein Prophet erreichen würde, der alle Werte vorher sieht.
+
+Die Annahmen tragen alles: Ist die Folge sortiert, verfehlt die Wartezeit-Regel das beste Angebot. Alle Ergebnisse stammen aus erfundenen Angeboten, nicht aus echten Märkten.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/sekretaerproblem-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
+
 with st.expander("So funktionieren Sekretärproblem und Prophet", expanded=True):
     st.markdown(
         """
@@ -256,6 +269,24 @@ with st.expander("⚠️ Annahmen, Grenzen und bekannte Probleme"):
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/sekretaerproblem-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Teil A: Gegeben sind $n$ Angebote in zufälliger Reihenfolge; nach jedem ist nur bekannt, ob es das beste bisher ist. Gesucht ist eine Regel, die das beste mit möglichst großer Wahrscheinlichkeit wählt. Teil B: Gegeben sind unabhängige Angebote $X_i$ mit bekannten Verteilungen in einer vom Gegner gewählten Reihenfolge. Gesucht ist eine Schwelle, die einen festen Anteil des Wertes sichert, den ein Prophet erreicht.
+
+| Symbol | Bedeutung |
+|---|---|
+| $n$, $k$ | Zahl der Angebote und der nur angesehenen |
+| $P(n, k)$ | Wahrscheinlichkeit, das beste Angebot zu wählen |
+| $X_i$ | Angebot $i$ (Teil B), Zufallsgröße |
+| $\mathbb{E}[\max_i X_i]$ | Wert des Propheten |
+| $T$ | Schwelle der Regel |
+| $\varepsilon$ | Wahrscheinlichkeit des riskanten Angebots im scharfen Beispiel |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/sekretaerproblem-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Lesehilfe.** Teil A: $n$ Angebote mit verschiedenen Werten kommen in zufälliger Reihenfolge. Nach dem $t$-ten Angebot ist nur bekannt, ob es das beste unter den ersten $t$ ist. Gesucht ist eine Regel, die das beste Angebot mit möglichst großer Wahrscheinlichkeit wählt. Teil B: Angebote $X_1, \dots, X_n \ge 0$ sind unabhängig mit bekannten Verteilungen und kommen in einer vom Gegner gewählten Reihenfolge.
