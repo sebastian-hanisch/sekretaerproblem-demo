@@ -109,7 +109,7 @@ with st.expander("💬 In einfachen Worten"):
         """
 Angebote kommen nacheinander, und jedes wird **sofort genommen oder für immer verworfen**. Gewählt wird genau eines, ein Zurück gibt es nicht. Die Demo zeigt zwei Fassungen, je nachdem, was man über die Angebote weiß. Kennt man nur die **Rangfolge** (ist dieses Angebot das beste bisher?), hilft bei zufälliger Reihenfolge die Regel „erst eine Wartezeit nur ansehen, dann das erste nehmen, das besser ist als alle bisherigen“. Kennt man die **Verteilungen** unabhängiger Angebote, sichert eine einzige **Schwelle** die Hälfte dessen, was ein Prophet erreichen würde, der alle Werte vorher sieht.
 
-Die Annahmen tragen alles: Ist die Folge sortiert, verfehlt die Wartezeit-Regel das beste Angebot. Alle Ergebnisse stammen aus erfundenen Angeboten, nicht aus echten Märkten.
+Alles hängt an den Annahmen: Ist die Folge sortiert, verfehlt die Wartezeit-Regel das beste Angebot. Alle Ergebnisse stammen aus erfundenen Angeboten, nicht aus echten Märkten.
 
 [Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/sekretaerproblem-erklaert.html)
         """
@@ -121,8 +121,8 @@ with st.expander("So funktionieren Sekretärproblem und Prophet", expanded=True)
         """
 1. **Teil A:** n Angebote kommen in zufälliger Reihenfolge, größer ist besser. Nach jedem Angebot weiß man nur, ob es das beste bisher ist. Die Regel schaut sich die ersten **k** nur an und nimmt dann das erste, das besser ist als alle bisher gesehenen (kommt keines, das letzte).
 2. **Warum 37 %:** Wer zu früh zuschlägt, nimmt oft ein mittelmäßiges Angebot; wer zu lange wartet, lässt den Besten verstreichen. Das Optimum liegt bei k ≈ n/e, der Erfolg bei ≈ 1/e.
-3. **Die Annahme „zufällige Reihenfolge“ trägt alles:** Kommen die Angebote aufsteigend, ist jedes das beste bisher, und die Regel nimmt das erste nach der Wartezeit, das nicht das beste ist (außer bei einer Wartezeit von n − 1). Reicht der sortierte Anfang über die Wartezeit hinaus, ist die Regel sofort wirkungslos.
-4. **Teil B:** Die Angebote sind unabhängige Zufallsgrößen mit bekannter Verteilung. Ein Prophet sieht alle Werte und nimmt das größte (Mittel E[max]). Die Schwelle E[max]/2 nimmt das erste Angebot darüber und garantiert **in jeder Reihenfolge** mindestens E[max]/2.
+3. **Die Annahme „zufällige Reihenfolge“ ist entscheidend:** Kommen die Angebote aufsteigend, ist jedes das beste bisher, und die Regel nimmt das erste nach der Wartezeit, das nicht das beste ist (außer bei einer Wartezeit von n − 1). Reicht der sortierte Anfang über die Wartezeit hinaus, ist die Regel sofort wirkungslos.
+4. **Teil B:** Die Angebote sind unabhängige Zufallsgrößen mit bekannter Verteilung. Ein Prophet sieht alle Werte und nimmt das größte (Erwartungswert E[max]). Die Schwelle E[max]/2 nimmt das erste Angebot darüber und garantiert **in jeder Reihenfolge** mindestens E[max]/2.
 5. **Das scharfe Beispiel:** Ein sicheres Angebot 1 und ein riskantes mit Wert 1/ε und Wahrscheinlichkeit ε. Kommt die sichere 1 zuerst, erreicht die Schwelle nur die Hälfte; kommt das riskante zuerst, das Ganze.
         """
     )
@@ -180,7 +180,7 @@ st.markdown("---")
 
 st.subheader("🔬 Experiment 1: Was kostet eine sortierte Folge?")
 rows_or = _order()
-st.caption(f"n = {C.ORDER_N}, k = {C.ORDER_K}, je {C.ORDER_TRIALS} gezogene Folgen, fester Seed. Die ersten x % der Folge aufsteigend sortiert; absteigend ist die ganze Folge umgekehrt sortiert.")
+st.caption(f"n = {C.ORDER_N}, k = {C.ORDER_K}, je {C.ORDER_TRIALS} gezogene Folgen, fester Zufalls-Seed. Die ersten x % der Folge aufsteigend sortiert; absteigend ist die ganze Folge umgekehrt sortiert.")
 st.plotly_chart(build_order(rows_or), width="stretch", key="order_chart")
 kind, text = verdict_order(rows_or)
 getattr(st, kind)(text)
@@ -211,7 +211,7 @@ st.markdown("## 🔮 Teil B: Prophet-Ungleichung")
 st.caption(f"Sicheres Angebot 1, riskantes Angebot {1 / eps:g} mit Wahrscheinlichkeit {eps:g} (sonst 0) · Reihenfolge „{ordnung_b}“ · Regel: {regel_b}")
 c1m, c2m, c3m = st.columns(3)
 c1m.metric("Wert der Regel", f"{b.value:.3f}", delta=f"Reihenfolge „{ordnung_b}“", delta_color="off", help="Erwarteter Wert der gewählten Regel in der gewählten Reihenfolge; exakt gerechnet.")
-c2m.metric("Erwartetes Maximum (Prophet)", f"{b.emax:.3f}", delta="Referenz", delta_color="off", help="Mittel des größten Wertes; der Prophet sieht alle Werte vorher.")
+c2m.metric("Erwartetes Maximum (Prophet)", f"{b.emax:.3f}", delta="Referenz", delta_color="off", help="Erwartungswert des größten Wertes; der Prophet sieht alle Werte vorher.")
 c3m.metric("Anteil am Prophet", f"{b.ratio:.3f}", delta="Garantie der Schwelle: 0,5", delta_color="off", help="Wert der Regel geteilt durch E[max].")
 st.plotly_chart(build_prophet(b.table), width="stretch", key="prophet_chart")
 st.caption("Alle Regeln in allen Reihenfolgen, als Anteil des erwarteten Maximums. Die Schwellenregel liegt nie unter der gestrichelten Garantie 0,5; „kleine zuerst“ ist ihre ungünstigste Reihenfolge. In diesem Beispiel stimmen beide Schwellen und die optimale Regel überein; sie unterscheiden sich erst in Experiment 5.")
@@ -224,7 +224,7 @@ st.markdown("---")
 
 st.subheader("🔬 Experiment 4: Zufällige Instanzen")
 rows_in = _instances()
-st.caption(f"{C.INSTANCES} zufällige Instanzen mit {C.INSTANCE_VARS} unabhängigen Verteilungen (Exponential, Zwei-Punkt, Gleich), je {C.INSTANCE_SAMPLES} Stichproben, fester Seed. Schwelle E[max]/2; Zahl = Wert geteilt durch E[max].")
+st.caption(f"{C.INSTANCES} zufällige Instanzen mit {C.INSTANCE_VARS} unabhängigen Verteilungen (Exponential, Zwei-Punkt, Gleich), je {C.INSTANCE_SAMPLES} Stichproben, fester Zufalls-Seed. Schwelle E[max]/2; Zahl = Wert geteilt durch E[max].")
 st.plotly_chart(build_instances(rows_in), width="stretch", key="instances_chart")
 kind, text = verdict_instances(rows_in)
 getattr(st, kind)(text)
@@ -258,11 +258,11 @@ st.markdown(
 with st.expander("⚠️ Annahmen, Grenzen und bekannte Probleme"):
     st.markdown(
         f"""
-**Annahmen.** Teil A: die Werte sind gleichverteilt in (0, 1) und verschieden; die Regel sieht nur, ob ein Angebot besser ist als alle bisherigen. Die Kennzahlen „Wert/Maximum“ und „unter den besten {C.TOP}“ sind **Schätzungen** über {C.TRIALS} gezogene Folgen (Experimente 1 und 2: {C.ORDER_TRIALS}); die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge ist exakt aus der Formel. Teil B: zwei Angebote, das sichere hat den Wert 1, das riskante {1 / eps:g} mit Wahrscheinlichkeit {eps:g}; die Zahlen dort sind exakt, nicht geschätzt. Experiment 4 ist eine Stichprobe mit festem Seed.
+**Annahmen.** Teil A: die Werte sind gleichverteilt in (0, 1) und verschieden; die Regel sieht nur, ob ein Angebot besser ist als alle bisherigen. Die Kennzahlen „Wert/Maximum“ und „unter den besten {C.TOP}“ sind **Schätzungen** über {C.TRIALS} gezogene Folgen (Experimente 1 und 2: {C.ORDER_TRIALS}); die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge ist exakt aus der Formel. Teil B: zwei Angebote, das sichere hat den Wert 1, das riskante {1 / eps:g} mit Wahrscheinlichkeit {eps:g}; die Zahlen dort sind exakt, nicht geschätzt. Experiment 4 ist eine Stichprobe mit festem Zufalls-Seed.
 
 **Grenzen.** Die Demo ist nur an erfundenen Angeboten geprüft. Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der beste erreichbare Erfolg höher (bei n = 10 und k = 3 bei {A.p_success(10, 3) * 100:.1f} %). Die Garantie ½ der Schwelle gilt im schlechtesten Fall und ist nur im Grenzfall ε → 0 scharf (die App erlaubt ε ab {min(C.EPS_OPTIONS):g}); im Mittel über zufällige Instanzen liegt sie weit darüber (Experiment 4). Die Rückwärtsrechnung in Teil B kennt die Reihenfolge, die Schwellenregel nicht.
 
-**Bekannte Probleme und Unsicherheiten.** Bei Gleichstand der Qualität (hier ausgeschlossen, da die Werte verschieden sind) wäre die Regel nicht eindeutig. Die Schätzungen schwanken mit dem Seed um einige Zehntelprozentpunkte; die Verdikte und README-Zahlen gelten für feste Seeds.
+**Bekannte Probleme und Unsicherheiten.** Bei Gleichstand der Qualität (hier ausgeschlossen, da die Werte verschieden sind) wäre die Regel nicht eindeutig. Die Schätzungen schwanken mit dem Zufalls-Seed um einige Zehntelprozentpunkte; die Verdikte und README-Zahlen gelten für feste Zufalls-Seeds.
         """
     )
 

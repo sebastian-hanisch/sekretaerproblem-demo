@@ -21,7 +21,7 @@ Angebote kommen nacheinander; jedes wird sofort genommen oder für immer verworf
 
 | Abschnitt der App | Was gerechnet wird |
 |---|---|
-| Teil A, Ergebnis | gewählte Einstellungen: 4000 gezogene Folgen (fester Seed), dazu die exakte Formel; eine gezeichnete Folge; Erfolgskurve über k |
+| Teil A, Ergebnis | gewählte Einstellungen: 4000 gezogene Folgen (fester Zufalls-Seed), dazu die exakte Formel; eine gezeichnete Folge; Erfolgskurve über k |
 | Experiment 1 | n = 100, k = 37, den Anfang der Folge zu 0 / 25 / 50 / 75 / 100 % aufsteigend sortiert, dazu absteigend; je 50 000 gezogene Folgen |
 | Experiment 2 | n = 100, zufällig, k = 0 bis 70; Erfolg, Wert/Maximum und Anteil unter den besten 5; je 50 000 gezogene Folgen |
 | Experiment 3 | exakt: bestes k und sein Erfolg für n = 3 bis 10 000 |
@@ -31,7 +31,7 @@ Angebote kommen nacheinander; jedes wird sofort genommen oder für immer verworf
 
 ## Befunde (gemessen, keine Behauptungen)
 
-Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen sind **Stichproben mit festem Seed** und schwanken bei 4000 Folgen um etwa ±1 Punkt (eine Standardabweichung rund 0,8), bei 50 000 Folgen um etwa ±0,4 Punkte um den exakten Wert (Experiment 1: 37,6 % bei exakt 37,1 %, ein Ausreißer von gut zwei Standardabweichungen); exakt gerechnete Zahlen sind als „exakt“ gekennzeichnet.
+Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen sind **Stichproben mit festem Zufalls-Seed** und schwanken bei 4000 Folgen um etwa ±1 Punkt (eine Standardabweichung rund 0,8), bei 50 000 Folgen um etwa ±0,4 Punkte um den exakten Wert (Experiment 1: 37,6 % bei exakt 37,1 %, ein Ausreißer von gut zwei Standardabweichungen); exakt gerechnete Zahlen sind als „exakt“ gekennzeichnet.
 
 | Frage | Befund |
 |---|---|
@@ -50,7 +50,7 @@ Alle Zahlen in `tests/test_claims.py` nachgerechnet. Zahlen aus gezogenen Folgen
 ## Ehrliche Grenzen
 
 - Die Demo ist **nur an erfundenen Angeboten** geprüft: gleichverteilte Werte in Teil A, ein Zwei-Punkt-Beispiel und zufällige Verteilungen in Teil B.
-- **Stichproben:** Erfolg bei gewählter Reihenfolge, Wert/Maximum, „unter den besten 5“ und Experiment 4 sind Schätzungen mit festem Seed. Die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge und alles in Teil B (außer Experiment 4) ist exakt.
+- **Stichproben:** Erfolg bei gewählter Reihenfolge, Wert/Maximum, „unter den besten 5“ und Experiment 4 sind Schätzungen mit festem Zufalls-Seed. Die Erfolgswahrscheinlichkeit bei zufälliger Reihenfolge und alles in Teil B (außer Experiment 4) ist exakt.
 - **Wert gegen Rang:** Das Sekretärproblem sieht nur die Rangfolge, das Prophet-Problem die Werte; die Zahlen beider Teile sind nicht vergleichbar, nur die Idee „eine Wahl ohne Zurück“ verbindet sie.
 - Der Grenzwert 1/e gilt für große n; bei kleinem n liegt der beste erreichbare Erfolg höher (n = 10: 39,9 % bei k = 3).
 - Die Garantie 1/2 der Schwelle gilt im **schlechtesten Fall** und ist nur im Grenzfall ε → 0 scharf (die App erlaubt ε ab 0,01); das scharfe Beispiel zeigt, dass nichts Besseres für alle Reihenfolgen gilt, im Mittel über zufällige Instanzen liegt die Schwelle weit darüber.
